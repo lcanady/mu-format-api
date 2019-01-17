@@ -2,7 +2,7 @@ const express = require('express')
 const Formatter = require('mu-format')
 
 const formatter = new Formatter({})
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const app = express()
 
 
@@ -27,9 +27,9 @@ app.get('/', async (req, res) => {
         res.json({documents})
       })   
       formatter.on('log', log => console.log(log))
-      formatter.on('error', error => res.status(500).json({error}))
+      formatter.on('error', error => res.json({error:error.message}))
     } catch (error) {
-      res.status(500).json({error})
+      res.status(500).json({error:error})
     }
   } else {
     res.status(500).json({error: 'Txt query parameter required.'})
