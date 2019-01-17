@@ -2,9 +2,9 @@ const express = require('express')
 const Formatter = require('mu-format')
 
 const formatter = new Formatter({})
-
+const PORT = process.env.PORT || 3000;
 const app = express()
-const port = 3000
+
 
 app.use(function(err, req, res, next){
   if(err) {
@@ -41,4 +41,4 @@ app.get('/', async (req, res) => {
 
 })
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Example app listening on port ${PORT}!`))
