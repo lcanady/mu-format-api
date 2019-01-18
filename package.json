@@ -28,6 +28,6 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "mu-format": "github:lcanady/mu-format"
+    "mu-format": "^0.3.7"
   }
 }
