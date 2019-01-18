@@ -27,7 +27,10 @@ app.get('/', async (req, res) => {
         res.json({documents})
       })   
       formatter.on('log', log => console.log(log))
-      formatter.on('error', error => res.json({error:error.message}))
+      formatter.on('error', error =>{ 
+        console.log(error);
+        res.json({error:error.message})
+      })
     } catch (error) {
       res.json({error:error.message})
     }
