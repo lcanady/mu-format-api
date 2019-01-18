@@ -1,47 +1,45 @@
 const express = require('express')
 const Formatter = require('mu-format')
+const bodyParser = require('body-parser')
 
-const formatter = new Formatter({})
+const formatter = new Formatter()
 const PORT = process.env.PORT || 3001;
 const app = express()
 
+// Use Node.js body parsing middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(function(err, req, res, next){
-  if(err) {
-    res.status(500).json({error:err})
-  }
+
+
+app.get('/', (req, res) => {
+  res.send({message:'Welcome to the mu-format API!'})
 })
 
-
-app.get('/', async (req, res) => {
-
-  // If a request is sent with text, process.
-  if (req.query.txt){
-    let txt = req.query.txt
-    if (txt.match(/github.*/i)){
-      txt = txt.replace(/\s/,'')
-    }
+app.post('/', async (req,res) => {
+  // if a URL is provided.
+  if (req.body.url) {
     try {
-      await formatter.format(txt)
-      formatter.once('done', documents => {
-        res.json({documents})
-      })   
-      formatter.on('log', log => console.log(log))
-      formatter.on('error', error =>{ 
-        console.log(error);
-        res.json({error:error.message})
-      })
+      await formatter.format(req.body.url); 
     } catch (error) {
-      res.json({error:error.message})
+      res.send({error: error.message})
     }
+    formatter.once('done', docs => res.send({documents: docs}))
+    formatter.on('error', error => res.send({error: error.message}))  
+  // Else just parse the text.
   } else {
-    res.status(500).json({error: 'Txt query parameter required.'})
+    if (req.body.txt){
+      try {
+        await formatter.format(req.body.txt); 
+      } catch (error) {
+        res.send({error: error.message})
+      }
+      formatter.once('done', docs => res.send({documents: docs}))
+      formatter.on('error', error => res.send({error: error.message}))
+    } else {
+      res.send({error:'Text required.'})
+    } 
   }
-
-
-
-
-
 })
 
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`))
