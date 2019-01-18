@@ -29,7 +29,7 @@ app.get('/', async (req, res) => {
       formatter.on('log', log => console.log(log))
       formatter.on('error', error => res.json({error:error.message}))
     } catch (error) {
-      res.status(500).json({error:error})
+      res.json({error:error.message})
     }
   } else {
     res.status(500).json({error: 'Txt query parameter required.'})
