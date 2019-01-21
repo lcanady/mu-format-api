@@ -13,7 +13,10 @@ app.use(cors())
 
 
 app.get('/', (req, res) => {
-  res.send({message:'Welcome to the mu-format API!'})
+  res.send({
+    status:'200',
+    message:'Welcome to the mu-format API!'
+  })
 })
 
 app.post('/', async (req,res) => {
