@@ -27,22 +27,25 @@ app.post('/', async (req,res) => {
     try {
       await formatter.format(req.body.url); 
     } catch (error) {
-      res.send({error: error.message})
+      res.send({title: 'Error', message: error.message})
     }
     formatter.once('done', docs => res.send({documents: docs}))
-    formatter.once('error', error => res.send({error: error.message}))  
+    formatter.once('error', error => res.send({
+      title: 'Error', 
+      message: error.message
+    }))  
   // Else just parse the text.
   } else {
     if (req.body.txt){
       try {
         await formatter.format(req.body.txt); 
       } catch (error) {
-        res.send({error: error.message})
+        res.send({title: 'Error', message: error.message})
       }
       formatter.once('done', docs => res.send({documents: docs}))
       formatter.on('error', error => res.send({error: error.message}))
     } else {
-      res.send({error:'Text required.'})
+      res.send({title: 'Error', message:'Text required.'})
     } 
   }
 })
