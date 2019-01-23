@@ -1,34 +1,77 @@
-# How It Works
+# Formatting Rules
+#### The rules to formatting are pretty simple!
 There are three ways to format code through this website.  You can enter the address of a formatted You can enter text into the enter field and hit format, you can load a pretty formated file from your local drive (#includes and #file won't work in this through this method) or you can load an archive from Github by putting the full address to the archive of code.
 
-# Formatting Rules
 The rules for formatting .mu documents is pretty simple! First, You can format your code however you'd like.  I suggest adopting an easy to read style using indentations and spacing to make your code digestable. Since MUSHCode doesn't have any real blocking, Mu-Format usese dashes '-' between commands to seperate them. You can also add comments in your code in either '/* ... */' block style or '//' inline comments.
 
 ```
 /*
----------------------------------------------
---- My Commands -----------------------------
+--------------------------------------------------------------------------------
+--- Exit Format ----------------------------------------------------------------
 
-Some cool custom commands I just wrote!
+Formats the room's exit list.
+
+Basic exit format. Don't worry about color, it's applied automatically:
+    Exit Name ;exit;en
+
+Exits can have two optional attributes:
+    &secondary  = 1
+    &tertiary  = 1
+
 */
 
-&cmd_mycommand me = $+Stuff *:
-  @pemit %#=You entered things and %0.;
+@ExitFormat [v( d.grp )]=
+    [u( .header, Exits )]%r
+    [columns(
+        iter( %0,
+            switch( 1,
+
+// Find exits with the &secondary attribute
+
+                issecondary( ## ),
+                    edit(
+                        name( ## ),
+                        <, ansi( v( config.secondary ), < ),
+                        >, ansi( v( config.secondary ), > )
+                    ),
+
+// Find exits with the &tertiary attribute
+
+                istertiary( ## ),
+                    edit(
+                        name( ## ),
+                        <, ansi( v( config.tertiary ), < ),
+                        >, ansi( v( config.tertiary ), > )
+                    ),
+                edit(
+                    name( ## ),
+                    <, ansi( v( config.hcolor ), < ),
+                    >, ansi( v( config.hcolor ), > )
+                )
+            ),,|
+        )
+        ,26,|
+    )]
+    [if(
+
+// IC Area?
+
+        not( hasflag( %!, IC )),
+        footer( OOC AREA ),
+        footer()
+    )]
+
 -
-// Another command that does things
-&cmd_mycommandtwo me = $+things *=*:
-  
-  // Sets an attribute on myself!
-  &_things me=%0-%1
-  think Things %0 %1! // Wut?
--
+
 ```
+
 When we format this block of code, it turns into:
 
 ```
-&cmd_mycommand me = $+Stuff *: @pemit %#=You entered things and %0.;
-&cmd_mycommandtwo me = $+things *=*: &_things me=%0-%1 think Things %0 %1!
+@ExitFormat [v( d.grp )]= [u( .header, Exits )]%r[columns( iter( %0, switch( 1, issecondary( ## ), edit( name( ## ), <, ansi( v( config.secondary ), < ), >, ansi( v( config.secondary ), > ) ), istertiary( ## ), edit( name( ## ), <, ansi( v( config.tertiary ), < ), >, ansi( v( config.tertiary ), > ) ), edit( name( ## ), <, ansi( v( config.hcolor ), < ), >, ansi( v( config.hcolor ), > ) ) ),,| ) ,26,| )][if( not( hasflag( %!, IC )), footer( OOC AREA ), footer() )]
+
 ```
+
 Simple!
 
 The real power of Mu-Format comes in it's #tag system.  #tags are, when the code is interpreted, translated into MU friendly commands.  They're honestly a good way to save a few keystrokes and even organize your code projects.  Lets take a look at the few that exist right now:

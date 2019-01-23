@@ -58,7 +58,7 @@ app.post('/', async (req,res) => {
       res.send({title:'Error', message:error.message})
     }
   } else {
-    req.send({title:'Unknown Request', message:'Unknown request sent.'})
+    res.send({title:'Unknown Request', message:'Unknown request sent.'})
   }
 
 })
