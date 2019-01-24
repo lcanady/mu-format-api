@@ -37,8 +37,8 @@ app.post('/', async (req,res) => {
     } catch (error) {
       res.send({title: 'Error', message: error.message})
     }
-    formatter.once('done', docs => res.send({documents: docs}))
-    formatter.once('error', error => res.send({
+    formatter.on('done', docs => res.send({documents: docs}))
+    formatter.on('error', error => res.send({
       title: 'Error', 
       message: error.message
     }))
@@ -48,7 +48,7 @@ app.post('/', async (req,res) => {
     } catch (error) {
       res.send({title: 'Error', message: error.message})
     }
-    formatter.once('done', docs => res.send({documents: docs}))
+    formatter.on('done', docs => res.send({documents: docs}))
     formatter.on('error', error => res.send({error: error.message}))
   } else if (req.body.file) {
     try {
