@@ -2,7 +2,7 @@
 #### The rules to formatting are pretty simple!
 There are three ways to format code through this website.  You can enter the address of a formatted You can enter text into the enter field and hit format, you can load a pretty formated file from your local drive (#includes and #file won't work in this through this method) or you can load an archive from Github by putting the full address to the archive of code.
 
-The rules for formatting .mu documents is pretty simple! First, You can format your code however you'd like.  I suggest adopting an easy to read style using indentations and spacing to make your code digestable. Since MUSHCode doesn't have any real blocking, Mu-Format usese dashes ```-``` between commands to seperate them. You can also add comments in your code in either ```/* ... */``` block style or ```// inline comments```.
+The rules for formatting .mu documents is pretty simple! First, You can format your code however you'd like.  I suggest adopting an easy to read style using indentations and spacing to make your code digestable. Because MUSHCode is an unblocked language, **MU-Format** Searches for ```&``` or ```@``` prefixes to mark the beginning of an attribute or command. You can add comments in your code in either ```/* ... */``` block style or ```// inline comments```.
 
 ```
 /*
@@ -60,8 +60,6 @@ Exits can have two optional attributes:
         footer( OOC AREA ),
         footer()
     )]
-
--
 
 ```
 
