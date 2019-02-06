@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
   })
 })
 
-app.post('/', async (req,res) => {
+app.post('/', async (req, res) => {
   
   const formatter = new Formatter({
     headers: 'system author email url'
@@ -43,13 +43,11 @@ app.post('/', async (req,res) => {
       message: error.message
     }))
   } else if (req.body.txt) {
-    try {
-      await formatter.format(req.body.txt); 
-    } catch (error) {
-      res.send({title: 'Error', message: error.message})
-    }
     formatter.on('done', docs => res.send({documents: docs}))
     formatter.on('error', error => res.send({error: error.message}))
+
+    formatter.format(req.body.txt);
+
   } else if (req.body.file) {
     try {
       const file = await readFilePromise('./'+req.body.file)
