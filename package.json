@@ -26,9 +26,9 @@
   },
   "homepage": "https://github.com/lcanady/mu-format-api#readme",
   "dependencies": {
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "mu-format": "^0.5.4"
   }
 }
